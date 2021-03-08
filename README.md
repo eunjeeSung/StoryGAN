@@ -19,15 +19,19 @@ conda env create -f environment.yml
 
 ## Data
 
-### VIST Dataset
+### VIST Dataset (StoryGAN for Image Generation)
 
 - Download annotations
 
-Download the story-in-sequence annotations into `vist_dataset` folder from the [VIST Dataset page](http://visionandlanguage.net/VIST/dataset.html). For example, place `train.story-in-sequence.json` in `vist_dataset/train_annotation` folder and run the preprocess codes to encode the text annotations with CLIP.
+Download the story-in-sequence annotations into `vist_dataset` folder from the [VIST Dataset page](http://visionandlanguage.net/VIST/dataset.html). Place `train.story-in-sequence.json` in `vist_dataset/train_annotation` folder and run the preprocess codes to encode the text annotations with CLIP.
 
 - Download images
 
-To download the images from the official [VIST Dataset page](http://visionandlanguage.net/VIST/dataset.html), please follow the directions [here](https://www.quora.com/How-do-I-download-a-very-large-file-from-Google-Drive/answer/Shane-F-Carr?ch=10&share=6509af0d&srid=hoGGk). Since the dataset is shared via Google Drive and the files are large, we cannot download the files via `wget`.
+To download the images from the official [VIST Dataset page](http://visionandlanguage.net/VIST/dataset.html), please follow the directions [here](https://www.quora.com/How-do-I-download-a-very-large-file-from-Google-Drive/answer/Shane-F-Carr?ch=10&share=6509af0d&srid=hoGGk).
+
+### Ganilla Dataset (CycleGAN for Stylization)
+
+Please clone and refer to the directions [here](https://github.com/mirapartha/ganilla).
 
 ### miniGutenStoreis Dataset
 
@@ -39,7 +43,7 @@ Then unzip the file inside the `mini_guten_dataset` folder.
 
 Train a StoryGAN model on the children's book data
 
-1. Modify `code/cfg/vist.yml` for the VIST dataset. Also, set `ENCODINGS_FILE` and `PICKLE_FILE` inside `code/vist_data.py` to the path to the sentence encoding files.
+1. Modify `code/cfg/vist.yml` for the VIST dataset. Set `ENCODINGS_FILE` and `PICKLE_FILE` inside `code/vist_data.py` to the path to the sentence encoding files.
 (`code/cfg/guten.yml` for tminiGutenStories dataset)
 
 2. Run the training code
