@@ -3,7 +3,7 @@
 This repo builds upon the original StoryGAN repo. Novel contributions will include:
 - A model trained on [VIST](https://visionandlanguage.net/VIST/), a photorealistic dataset containing "81,743 unique photos in 20,211 sequences". The original StoryGAN authors only showed results from training on a cartoon and clip art dataset.
 - No more requirement for the entire story upfront. A user can start their storybook journey with just a single sentence.
-- Style transfer feature, powered by CycleGAN, to turn photorealistic outputs to beautiful illustrations.
+- Style transfer feature, powered by GANILLA, to turn photorealistic outputs to beautiful illustrations.
 
 ## Note to TA:
 To view the code that we authored for Milestone 2, please refer to these files/directories:
@@ -33,7 +33,7 @@ To download the images from the official [VIST Dataset page](http://visionandlan
 
 Please clone and refer to the directions [here](https://github.com/mirapartha/ganilla).
 
-### miniGutenStoreis Dataset
+### miniGutenStories Dataset
 
 Please download [images_grouped.zip](https://drive.google.com/file/d/10w-00iDJwdEumn61Z0m_ZVyEjeqSo2c3/view?usp=sharing).
 Then unzip the file inside the `mini_guten_dataset` folder.
