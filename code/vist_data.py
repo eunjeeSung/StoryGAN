@@ -21,14 +21,14 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 from miscc.utils import valid_img_path, valid_np_img
 
-ENCODINGS_FILE = 'train_text_encodings.pt'
-PICKLE_FILE = 'train_annotations.pickle'
+ENCODINGS_FILE = '/home/ubuntu/StoryGAN/vist_dataset/train_text_encodings.pt'
+PICKLE_FILE = '/home/ubuntu/StoryGAN/vist_dataset/train_annotations.pickle'
 
 
 class StoryDataset(torch.utils.data.Dataset):
     """Dataloader class for stories.
 
-    Loads a batch of images and encoded sentences of a story and concatenate them.
+    Loads a batch of images and encoded sentences of a story.
 
     Note:
         This class takes `desc_dir` as a parameter to align with original dataset modules
@@ -70,7 +70,7 @@ class StoryDataset(torch.utils.data.Dataset):
 
         des = np.concatenate(des, axis = 0) 
         des = torch.tensor(des)
-        super_label = np.array([[0, 0] * self.video_len]) # TODO
+        super_label = np.array([[0, 0] * self.video_len]) # Story encoding is just zeros
         return {'images': image, 'description': des, 'label':super_label}
 
     def __len__(self):

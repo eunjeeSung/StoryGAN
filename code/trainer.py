@@ -11,7 +11,7 @@ import torch.nn as nn
 from torch.autograd import Variable
 import torch.optim as optim
 import torchfile
-from torch.utils.tensorboard import SummaryWriter
+# from torch.utils.tensorboard import SummaryWriter
 
 from tqdm import tqdm
 from shutil import copyfile
@@ -107,7 +107,7 @@ class GANTrainer(object):
 
 
     def train(self, imageloader, storyloader, testloader):
-        writer = SummaryWriter()
+        # writer = SummaryWriter()
 
         self.imageloader = imageloader
         self.testloader = testloader
@@ -267,14 +267,14 @@ class GANTrainer(object):
                         save_story_results(None, lr_fake, epoch, self.image_dir)
 
                     # Tensorboard
-                    writer.add_scalar("Loss_D/train", st_errD.data, iteration)
-                    writer.add_scalar("Loss_G/train", st_errG.data, iteration)  
-                    writer.add_scalar("Loss_real/train", st_errD_real, iteration)
-                    writer.add_scalar("Loss_wrong/train", st_errD_wrong, iteration)
-                    writer.add_scalar("Loss_fake/train", st_errD_fake, iteration)
-                    writer.add_scalar("accG/train", accG, iteration)
-                    writer.add_scalar("accD/train", accD, iteration)
-                    writer.flush()
+                    # writer.add_scalar("Loss_D/train", st_errD.data, iteration)
+                    # writer.add_scalar("Loss_G/train", st_errG.data, iteration)  
+                    # writer.add_scalar("Loss_real/train", st_errD_real, iteration)
+                    # writer.add_scalar("Loss_wrong/train", st_errD_wrong, iteration)
+                    # writer.add_scalar("Loss_fake/train", st_errD_fake, iteration)
+                    # writer.add_scalar("accG/train", accG, iteration)
+                    # writer.add_scalar("accD/train", accD, iteration)
+                    # writer.flush()
                 
                 iteration += 1
 
@@ -295,5 +295,5 @@ class GANTrainer(object):
 
         #
         save_model(netG, netD_im, netD_st, self.max_epoch, i, self.model_dir)
-        writer.close()
+        # writer.close()
     #

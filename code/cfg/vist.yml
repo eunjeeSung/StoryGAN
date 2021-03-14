@@ -27,3 +27,7 @@ GAN:
 
 TEXT:
     DIMENSION: 512
+
+NET_G: '/home/ubuntu/StoryGAN/checkpoints/bce_epoch_57/netG_epoch_57_1664.pth'
+NET_D_ST: '/home/ubuntu/StoryGAN/checkpoints/bce_epoch_57/netD_st_epoch_last_57_1664.pth'
+NET_D_IM: '/home/ubuntu/StoryGAN/checkpoints/bce_epoch_57/netD_im_epoch_57_1664.pth'
