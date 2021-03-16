@@ -39,7 +39,7 @@ Then unzip the file inside the `mini_guten_dataset` folder.
 
 Train a StoryGAN model on the children's book data
 
-1. Modify `code/cfg/vist.yml` for the VIST dataset. Also, set `ENCODINGS_FILE` and `PICKLE_FILE` inside `code/vist_data.py` to the path to the sentence encoding files.
+1. Modify `code/cfg/vist.yml` for the VIST dataset. Also, set `ENCODINGS_FILE`, `PICKLE_FILE`, and `LABEL_FILE` inside `code/vist_data.py` to the path to the sentence encoding files.
 (`code/cfg/guten.yml` for tminiGutenStories dataset)
 
 2. Run the training code
@@ -60,13 +60,33 @@ tensorboard \
 --port=<open port>
 ```
 
+
+## Inference
+
+1. Set `code/cfg/vist_test.yml` for the Ganilla-processed VIST dataset.
+
+2. Set `ENCODINGS_FILE`, `PICKLE_FILE`, and `LABEL_FILE` inside `code/vist_data.py` to the path to the sentence encoding files
+(*Under construction)
+
+3. Run the inference code
+```bash
+python inference.py \
+--cfg './cfg/vist_test.yml' \
+--img_dir ~/VIST/ganilla_test \
+--desc_path ~/StoryGAN/vist_dataset/test_annotation
+```
+
+4. Output images are saved to `output/vist_StoryGAN/Test` by default.
+
+
 ## TODO
 
 - [ ] Evaluation code
 - [ ] Pretrained models
 - [ ] Refactoring the original main/util codes
   - [ ] Fix hardcoded values: clevr_data, guten_data
-
+- [ ] Split util.py and loss.py
+- [ ] Add encoding file paths to `config.py`
 
 ---
 
