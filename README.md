@@ -63,7 +63,7 @@ tensorboard \
 
 ## Inference
 
-1. Set `code/cfg/vist_test.yml` for the Ganilla-processed VIST dataset.
+1. Set `code/cfg/vist_test.yml` to use the Ganilla-processed VIST dataset.
 
 2. Set `ENCODINGS_FILE`, `PICKLE_FILE`, and `LABEL_FILE` inside `code/vist_data.py` to the path to the sentence encoding files
 (*Under construction)
@@ -77,6 +77,26 @@ python inference.py \
 ```
 
 4. Output images are saved to `output/vist_StoryGAN/Test` by default.
+
+
+## Streamlit
+
+Please refer to the [Streamlit official documents](https://docs.streamlit.io/en/stable/index.html) for details.
+
+1. Set `code/cfg/vist_streamlit.yml` to use the Ganilla-processed VIST dataset.
+
+2. Set `ENCODINGS_FILE`, `PICKLE_FILE`, and `LABEL_FILE` inside `code/vist_data.py` to the path to the sentence encoding files
+(*Under construction)
+
+3. Run the inference code
+```bash
+python inference.py \
+--cfg './cfg/vist_streamlit.yml' \
+--img_dir ~/VIST/ganilla_val \
+--desc_path ~/StoryGAN/vist_dataset/sample_annotation
+```
+
+4. Currently output images will not be saved.
 
 
 ## TODO
