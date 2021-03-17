@@ -48,7 +48,7 @@ class GANEvaluator:
             netG.cuda()
         return netG
 
-    def evaluate(self, storyloader):
+    def batch_inference(self, storyloader):
         for i, data in enumerate(tqdm(storyloader), 0):
             # Get story results
             st_real_cpu, st_motion_input, st_content_input = self._get_st_inputs(data)
@@ -57,6 +57,21 @@ class GANEvaluator:
             # Save results
             self._save_story_results(st_real_cpu, lr_fake, st_fake, i, self.output_dir)
         print("DONE: Batch inference")
+        return st_fake
+
+    def single_inference(self, st_motion_input):
+        """Takes `st_motion_input` of size `(sentence_num, dim)`
+        """
+        # TODO: Take category labels as input
+        st_content_input_shape = [1, self.video_len, st_motion_input.shape[-1]]
+        st_content_input = torch.zeros(st_content_input_shape)
+        st_motion_input = st_motion_input.unsqueeze(0)
+        if cfg.CUDA:
+            st_motion_input = st_motion_input.cuda()
+            st_content_input = st_content_input.cuda()       
+
+        lr_fake, st_fake = self._sample_stories(st_motion_input, st_content_input)
+        return st_fake
 
     def _get_st_inputs(self, data):
         st_batch = data
