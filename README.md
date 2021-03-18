@@ -6,7 +6,7 @@ This repo builds upon the original StoryGAN repo. Novel contributions will inclu
 - Style transfer feature, powered by GANILLA, to turn photorealistic outputs to beautiful illustrations.
 
 ## Note to TA:
-To view the code that we authored for Milestone 2, please refer to these files/directories:
+To view the code that we authored, please refer to these files/directories:
 - [vist_data.py](https://github.com/eunjeeSung/StoryGAN/blob/master/code/vist_data.py): Pytorch dataset loading.
 - [main.py](https://github.com/eunjeeSung/StoryGAN/blob/master/code/main.py): Training pipeline.
 - [/vist_dataset](https://github.com/eunjeeSung/StoryGAN/tree/master/vist_dataset): VIST annotations processing.
