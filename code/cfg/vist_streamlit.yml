@@ -1,5 +1,6 @@
 CONFIG_NAME: 'StoryGAN'
 DATASET_NAME: 'vist'
+# CUDA: False
 GPU_ID: '0'
 Z_DIM: 10
 IMSIZE: 64
@@ -19,4 +20,4 @@ GAN:
 TEXT:
     DIMENSION: 512
 
-NET_G: '/home/ubuntu/StoryGAN/code/output/vist_StoryGAN/Model/netG_epoch_14.pth'
+NET_G: '/home/ubuntu/StoryGAN/checkpoints/bce_epoch_57/netG_epoch_57_1664.pth'

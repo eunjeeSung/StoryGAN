@@ -30,7 +30,7 @@ def parse_args():
     parser.add_argument('--cfg',
                         dest='cfg_file',
                         help='optional config file',
-                        default='./cfg/clevr.yml',
+                        default='./cfg/vist_streamlit.yml',
                         type=str)
     parser.add_argument('--gpu',  dest='gpu_id', type=str, default='0')
     parser.add_argument('--manualSeed', type=int, help='manual seed')
