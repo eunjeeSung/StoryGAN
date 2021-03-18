@@ -72,8 +72,9 @@ tensorboard \
 ```bash
 python inference.py \
 --cfg './cfg/vist_test.yml' \
---img_dir ~/VIST/ganilla_test \
---desc_path ~/StoryGAN/vist_dataset/test_annotation
+--img_dir /home/ubuntu/VIST/ganilla_test \
+--desc_path ~/StoryGAN/vist_dataset/test_annotation \
+--output_dir ~/StoryGAN/output/test_batch
 ```
 
 4. Output images are saved to `output/vist_StoryGAN/Test` by default.

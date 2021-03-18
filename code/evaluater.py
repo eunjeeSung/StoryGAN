@@ -12,9 +12,10 @@ import torch.backends.cudnn as cudnn
 
 from tqdm import tqdm
 from six.moves import range
+import PIL
 
 from miscc.config import cfg
-from miscc.utils import save_story_results, weights_init
+from miscc.utils import save_story_results, weights_init, images_to_numpy
 
 
 class GANEvaluator:
@@ -48,14 +49,17 @@ class GANEvaluator:
             netG.cuda()
         return netG
 
-    def batch_inference(self, storyloader):
+    def batch_inference(self, storyloader, save_raw_images=False):
         for i, data in enumerate(tqdm(storyloader), 0):
             # Get story results
             st_real_cpu, st_motion_input, st_content_input = self._get_st_inputs(data)
             lr_fake, st_fake = self._sample_stories(st_motion_input, st_content_input)
 
             # Save results
-            self._save_story_results(st_real_cpu, lr_fake, st_fake, i, self.output_dir)
+            if save_raw_images:
+                self._save_story_images(lr_fake, st_fake, i, self.output_dir)
+            else:
+                self._save_story_results(st_real_cpu, lr_fake, st_fake, i, self.output_dir)
         print("DONE: Batch inference")
         return st_fake
 
@@ -94,6 +98,16 @@ class GANEvaluator:
     def _sample_stories(self, st_motion_input, st_content_input):
         lr_fake, st_fake, _, _, _, _ = self.netG.sample_videos(st_motion_input, st_content_input)
         return lr_fake, st_fake
+
+    def _save_story_images(self, lr_fake, st_fake, num, output_dir):
+        fake_imgs = lr_fake if lr_fake is not None else st_fake # 24, 3, 5, 64, 64
+        for i in range(fake_imgs.shape[0]):  
+            story_imgs = fake_imgs[i].squeeze(0).transpose(0, 1) # 5, 3, 64, 64
+            for j in range(story_imgs.shape[0]):
+                sentence_img = story_imgs[j]
+                sentence_img = images_to_numpy(sentence_img)
+                image = PIL.Image.fromarray(sentence_img)        
+                image.save('%s/test_epoch_%03d_batch_%d_story_%d_sentence_%d.png' % (output_dir, 22, num, i, j) )
 
     def _save_story_results(self, st_real_cpu, lr_fake, st_fake, num, output_dir):
         save_story_results(st_real_cpu, st_fake, num, output_dir, test=True)

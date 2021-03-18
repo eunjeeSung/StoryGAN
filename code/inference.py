@@ -57,7 +57,7 @@ def setup():
     
     return args
 
-def batch_inference(args):
+def batch_inference(args, save_raw_images=False):
     # Define image transformation
     n_channels = 3      
     image_transforms = transforms.Compose([
@@ -78,9 +78,8 @@ def batch_inference(args):
         testset, batch_size=cfg.TRAIN.ST_BATCH_SIZE * args.num_gpu,
         drop_last=True, shuffle=False, num_workers=int(cfg.WORKERS))
 
-    # Run inference
-    algo = GANEvaluator(args.output_dir, args.test_sample_save_dir)
-    return algo.batch_inference(testloader)
+    algo = GANEvaluator(args.output_dir, args.test_sample_save_dir)    
+    return algo.batch_inference(testloader, save_raw_images)
 
 def single_inference(args, descriptions):
     # Run inference
@@ -90,4 +89,4 @@ def single_inference(args, descriptions):
 
 if __name__ == "__main__":
     args = setup()
-    _ = batch_inference(args)
+    _ = batch_inference(args, save_raw_images=True)
