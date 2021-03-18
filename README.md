@@ -1,4 +1,5 @@
-# CS236G Final Project: StoryGAN trained on Visual Storytelling Dataset  
+# Once Upon a GAN: StoryGAN trained on Visual Storytelling Dataset  
+# Stanford CS236G Final Project
 
 This repo builds upon the original StoryGAN repo. Novel contributions will include:
 - A model trained on [VIST](https://visionandlanguage.net/VIST/), a photorealistic dataset containing "81,743 unique photos in 20,211 sequences". The original StoryGAN authors only showed results from training on a cartoon and clip art dataset.
