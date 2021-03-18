@@ -41,7 +41,7 @@ def setup():
     torch.manual_seed(args.manualSeed)
     if cfg.CUDA:
         torch.cuda.manual_seed_all(args.manualSeed)
-    num_gpu = len(cfg.GPU_ID.split(','))      
+    num_gpu = len(cfg.GPU_ID.split(','))     
 
     # Set output path
     output_dir = os.path.join(args.output_dir,
