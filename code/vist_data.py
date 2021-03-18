@@ -21,8 +21,9 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 from miscc.utils import valid_img_path, valid_np_img
 
-ENCODINGS_FILE = 'train_text_encodings.pt'
-PICKLE_FILE = 'train_annotations.pickle'
+ENCODINGS_FILE = 'test_text_encodings.pt'
+PICKLE_FILE = 'test_annotations.pickle'
+LABEL_FILE = 'test_labels.npy'
 
 
 class StoryDataset(torch.utils.data.Dataset):
@@ -39,6 +40,8 @@ class StoryDataset(torch.utils.data.Dataset):
         encodings (file): File containing encoded sentences in an 1-D array
         stories (file): File containing tuples of (image_id, encoding_id)
                        in an 1-D array
+        labels (file): File containing one-hot K-vector of the most common nouns
+                       in the dataset sentences
         transforms (str): Pytorch transform defined in `main.py`
         video_len (int): Number of frames in a story
     """
@@ -47,31 +50,42 @@ class StoryDataset(torch.utils.data.Dataset):
         self.img_dir = img_dir
         self.encodings = torch.load(os.path.join(desc_dir, ENCODINGS_FILE))
         self.stories = pickle.load(open(os.path.join(desc_dir, PICKLE_FILE), "rb"))
+        self.labels = np.load(os.path.join(desc_dir, LABEL_FILE))
         self.transforms = transform
         self.video_len = video_len
 
     def __getitem__(self, item):
         image = []
         des = []
+        labels = []
         story = self.stories[item]
+
+        # Append images, descriptions, and labels
         for i in range(self.video_len):
+            # images
             image_id, enc_idx = story[i]
-            desc = self.encodings[enc_idx]
             img_path = valid_img_path('%s/%s.jpg' % (self.img_dir, image_id))
             im = Image.open(img_path)
             image.append(valid_np_img(im, image_id))
+            im.close()            
+
+            # descriptions
+            desc = self.encodings[enc_idx]
             des.append(desc.unsqueeze(0))
-            im.close()
+
+            # labels
+            labels.append(self.labels[enc_idx])
+
 
         # image is T x H x W x C
         # After transform, image is C x T x H x W    
         image_numpy = image
         image = self.transforms(image_numpy)
-
         des = np.concatenate(des, axis = 0) 
         des = torch.tensor(des)
-        super_label = np.array([[0, 0] * self.video_len]) # TODO
-        return {'images': image, 'description': des, 'label':super_label}
+        label = np.array(labels)
+
+        return {'images': image, 'description': des, 'label': label}
 
     def __len__(self):
         return len(self.stories)
@@ -91,6 +105,8 @@ class ImageDataset(torch.utils.data.Dataset):
         encodings (file): File containing encoded sentences in an 1-D array
         stories (file): File containing tuples of (image_id, encoding_id)
                        in an 1-D array
+        labels (file): File containing one-hot K-vector of the most common nouns
+                       in the dataset sentences                       
         transforms (str): Pytorch transform defined in `main.py`
         video_len (int): Number of frames in a story
     """
@@ -99,6 +115,7 @@ class ImageDataset(torch.utils.data.Dataset):
         self.img_dir = img_dir
         self.encodings = torch.load(os.path.join(desc_dir, ENCODINGS_FILE))
         self.stories = pickle.load(open(os.path.join(desc_dir, PICKLE_FILE), "rb"))
+        self.labels = np.load(os.path.join(desc_dir, LABEL_FILE))        
         self.transforms = transform
         self.video_len = video_len
 
@@ -112,17 +129,20 @@ class ImageDataset(torch.utils.data.Dataset):
                                   (self.video_len x encoding size)
             }
         """
+        # description
         story = self.stories[item]
         image_id, enc_idx = random.choice(story)
         desc = self.encodings[enc_idx]
+        des = desc
 
+        # image
         path = valid_img_path('%s/%s.jpg' % (self.img_dir, image_id))
         im = Image.open(path)
         image = valid_np_img(im, image_id)
         image = self.transforms(image)
-        des = desc
         im.close()           
 
+        # content
         content = []
         for i in range(self.video_len):
             image_id, enc_idx = story[i]
@@ -131,9 +151,12 @@ class ImageDataset(torch.utils.data.Dataset):
         content = np.concatenate(content, 0)      
         content = torch.tensor(content)         
 
-        super_label = np.array([0, 0]) # TODO
+        content = torch.zeros_like(content) # TODO: Nullify story context        
 
-        return {'images': image, 'description': des, 'label':super_label, 'content': content}
+        # label
+        label = self.labels[enc_idx]
+
+        return {'images': image, 'description': des, 'label': label, 'content': content}
 
     def __len__(self):
         return len(self.stories)

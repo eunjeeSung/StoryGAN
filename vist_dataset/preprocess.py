@@ -35,6 +35,11 @@ if __name__ == "__main__":
     parser.add_argument('--dst', dest='dsc_path', type=str, default='train.stories.json')
     args = parser.parse_args()
 
-    prep = AnnotationPreprocessing(args.src_path)
-    stories = prep.extract_stories()
-    prep.arr_to_json(stories, args.dsc_path)
+
+    # Extract necessary story, storylet, and image information from the orignal json file
+    # stories = extract_stories()
+    # save_to_json(stories, 'train.stories.json')
+
+    # Extract most common K words from the original json file
+    labels = texts_to_labels(K=50)
+    save_to_npy(labels, 'labels.npy')
