@@ -43,10 +43,13 @@ Then unzip the file inside the `mini_guten_dataset` folder.
 
 Train a StoryGAN model on the children's book data
 
-1. Modify `code/cfg/vist.yml` for the VIST dataset. Set `ENCODINGS_FILE` and `PICKLE_FILE` inside `code/vist_data.py` to the path to the sentence encoding files.
-(`code/cfg/guten.yml` for tminiGutenStories dataset)
+1. Modify `code/cfg/vist.yml` for the VIST dataset.
 
-2. Run the training code
+2. Set `ENCODINGS_FILE`, `PICKLE_FILE`, and `LABEL_FILE` inside `code/vist_data.py` to the path to the sentence encoding files.
+(`code/cfg/guten.yml` for the miniGutenStories dataset)
+(*Under construction*)
+
+3. Run the training code
 
 ```bash
 python main.py \
@@ -55,7 +58,7 @@ python main.py \
 --desc_path ../vist_dataset/train_annotation
 ```
 
-3. Run tensorboard
+4. Run tensorboard
 
 ```bash
 tensorboard \
@@ -64,13 +67,54 @@ tensorboard \
 --port=<open port>
 ```
 
+
+## Inference
+
+1. Set `code/cfg/vist_test.yml` to use the Ganilla-processed VIST dataset.
+
+2. Set `ENCODINGS_FILE`, `PICKLE_FILE`, and `LABEL_FILE` inside `code/vist_data.py` to the path to the sentence encoding files
+(*Under construction*)
+
+3. Run the inference code
+```bash
+python inference.py \
+--cfg './cfg/vist_test.yml' \
+--img_dir /home/ubuntu/VIST/ganilla_test \
+--desc_path ~/StoryGAN/vist_dataset/test_annotation \
+--output_dir ~/StoryGAN/output/test_batch
+```
+
+4. Output images are saved to `output/vist_StoryGAN/Test` by default.
+
+
+## Streamlit
+
+Please refer to the [Streamlit official documents](https://docs.streamlit.io/en/stable/index.html) for details.
+
+1. Set `code/cfg/vist_streamlit.yml` to use the Ganilla-processed VIST dataset.
+
+2. Set `ENCODINGS_FILE`, `PICKLE_FILE`, and `LABEL_FILE` inside `code/vist_data.py` to the path to the sentence encoding files
+(*Under construction*)
+
+3. Run the inference code
+```bash
+python inference.py \
+--cfg './cfg/vist_streamlit.yml' \
+--img_dir ~/VIST/ganilla_val \
+--desc_path ~/StoryGAN/vist_dataset/sample_annotation
+```
+
+4. Currently output images will not be saved.
+
+
 ## TODO
 
 - [ ] Evaluation code
 - [ ] Pretrained models
 - [ ] Refactoring the original main/util codes
   - [ ] Fix hardcoded values: clevr_data, guten_data
-
+- [ ] Split util.py and loss.py
+- [ ] Add encoding file paths to `config.py`
 
 ---
 
